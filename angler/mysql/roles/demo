@@ -1,4 +1,0 @@
-GRANT ALL PRIVILEGES ON *.* TO '__ROLE__'@'localhost'
-IDENTIFIED BY '__PASS__';
-
-
