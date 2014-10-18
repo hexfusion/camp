@@ -1,0 +1,55 @@
+#!/bin/bash
+
+export PERL5LIB=__CAMP_PATH__/local/lib/perl5"${PERL5LIB:+:$PERL5LIB}";
+export PERL5LIB=__CAMP_PATH__/local/lib/perl5/x86_64-linux"${PERL5LIB:+:$PERL5LIB}"; 
+
+PID=__CAMP_PATH__/var/run/plackup-table.pid
+PORT=53__CAMP_NUMBER__
+WORKERS=1
+DIR="__CAMP_PATH__/applications/TableEditor"
+APP="$DIR/bin/app.pl"
+
+plackup="__CAMP_PATH__/local/bin/plackup"
+plackup_args="-E development --path=/t -p $PORT -s Starman --pid=$PID --workers $WORKERS -D"
+website="TableEditor camp__CAMP_NUMBER__"
+lockfile=__CAMP_PATH__/var/lock/plackup-table
+
+start() {
+    [ -x $plackup ] || exit 5
+    [ -f $APP ] || exit 6
+    echo $"Starting $website: "
+    $plackup $plackup_args -a $APP 2>&1 > /dev/null
+    retval=$?
+    [ $retval = 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo $"Stopping $website: "
+    if [ -f $PID ]; then
+        kill -QUIT `cat $PID` 2>&1> /dev/null
+        retval=$?
+        [ $retval -eq 0 ] && rm -f $lockfile ${PID}
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        $1
+        ;;
+    stop)
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 2
+esac
+

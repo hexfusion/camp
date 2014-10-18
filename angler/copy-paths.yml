@@ -1,0 +1,10 @@
+---
+source: /home/camp/angler6/rsync/htdocs/assetstore/site/images/items
+target: htdocs/assetstore/site/images/items
+default_link: 1
+always: 1
+---
+source: /home/camp/angler6/rsync/catalogs/site/var/counters
+target: catalogs/site/var/
+default_link: 0
+always: 1

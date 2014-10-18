@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#This script dumps your current db into the camp users home dir for later use
+now=$(date +"%m_%d_%Y-%H:%M:%S")
+
+mkdir -p /home/__CAMP_SYSTEM_USER__/backup
+
+echo "Backup in progress /home/__CAMP_SYSTEM_USER__/backup/camp__CAMP_NUMBER__-ic6-$now.sql"
+
+mysqldump -B -uroot -p__CAMP_DB_ROLE_ROOT_PASS__ --protocol=socket -S __CAMP_DB_SOCKET__ c1wba6 \
+> /home/__CAMP_SYSTEM_USER__/backup/ic6-$now.sql
+

@@ -1,0 +1,27 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Plack::Builder;
+use Plack::Util;
+use Plack::App::File;
+use Plack::App::Cascade;
+
+my $camp_path = '__CAMP_PATH__';
+my $app_dir = 'applications';
+my $app1 = 'Angler';
+my $app2 = 'TableEditor';
+my $app = 'bin/app.pl';
+
+#use strictures 1;
+use lib '__CAMP_PATH__/applications/TableEditor/lib';
+use lib '__CAMP_PATH__/applications/Angler/lib';
+
+my $angler_app = Plack::Util::load_psgi "$camp_path/$app_dir/$app1/$app";
+my $te_app = Plack::Util::load_psgi "$camp_path/$app_dir/$app2/$app";
+
+builder {
+    mount "/t"   => $te_app;
+    mount "/"    => $angler_app;
+};

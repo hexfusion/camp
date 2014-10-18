@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#remove refs to camp from ondir
+#please make me better
+grep -v "camp__CAMP_NUMBER__" ~/.ondirrc > ~/.ondirrc2; mv ~/.ondirrc2 ~/.ondirrc

@@ -1,0 +1,6 @@
+  <dataSource type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:__CAMP_DB_PORT__/dbname" 
+              user="root" 
+              password="__CAMP_DB_ROLE_ROOT_PASS__"/>
+

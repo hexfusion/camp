@@ -1,0 +1,22 @@
+#!/bin/bash
+
+FILE='~/.ondirrc'
+
+if [ -f $FILE ];
+then
+  echo "File $FILE exists good news!"
+else
+  echo "File $FILE does not exist... creating now."
+  touch ~/.ondirrc
+fi
+
+#add the following lines to ~/.ondirrc
+
+cat <<EOF >> ~/.ondirrc
+enter __CAMP_PATH__
+  source __CAMP_PATH__/bin/env-ctrl
+
+leave __CAMP_PATH__
+  unset PERL5LIB; #camp__CAMP_NUMBER__
+
+EOF

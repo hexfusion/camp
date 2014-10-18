@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use File::chdir;
+use File::Path;
+use Data::Dumper;
+
+my $file = '__CAMP_PATH__/cpanfile.dev';
+my $module_dir = 'dev-modules';
+my $base_dir = '__CAMP_PATH__';
+my $lib_dir = 'local/lib/perl5/';
+open(my $fh, '<', $file) or die "Can't read file '$file' [$!]\n";
+my %hash;
+
+# read loop file and create hash of hashes
+while( <$fh> ){
+chomp;
+    if (m{^requires\s+'([^']+)'\s*=>\s*'([^']+)'(?:\s*,\s*'([.\d]+)')?;$}) {
+        $hash{$1} = { git => $2, version => ($3 || '') };
+    } else {
+        warn "this line is not in correct format:\n$_\n";
+    }
+
+}
+
+#print $hash{git};
+#print Dumper \%hash;
+
+foreach my $key (sort keys %hash) {
+   my $giturl = $hash{$key}{git};
+   my $name = $giturl;
+   $name =~ s{.*/}{};      # removes path
+   $name =~ s{\.[^.]+$}{}; # removes extension
+
+
+# install modules
+{
+  local $CWD = "$base_dir/$module_dir";
+  system("git clone $giturl");
+  die "Install error $!" if ($?);
+}
+
+# symlink modules
+{
+  local $CWD = $base_dir;
+  system("cp -as --remove-destination $base_dir/$module_dir/$name/lib/* $lib_dir");
+  die "Install error $!" if ($?);
+}
+
+# install deps for each module
+{
+  local $CWD = $base_dir;
+  system("cpanm --installdeps --force -L $base_dir/$module_dir $key");
+  die "Install error $!" if ($?);
+}
+
+   print $module_dir . "/" . $name. "/bin/\n";
+# print "$key: $hash{$key}{git}<br />";
+}
+
+#print Dumper \%hash;
+
+#print  Data::Dumper->Dump([\%hash],['*hash']);

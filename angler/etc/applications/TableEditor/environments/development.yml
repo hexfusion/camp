@@ -1,0 +1,54 @@
+# configuration file for development environment
+
+# the logger engine to use
+# console: log messages to STDOUT (your console where you started the
+#          application server)
+# file:    log message to a file in log/
+#logger: "console"
+
+# the log level for this environment
+# core is the lowest, it shows Dancer's core log messages as well as yours
+# (debug, info, warning and error)
+log: "debug"
+
+# should Dancer consider warnings as critical errors?
+warnings: 1
+
+# should Dancer show a stacktrace when an error is caught?
+show_errors: 1
+
+# auto_reload is a development and experimental feature
+# you should enable it by yourself if you want it
+# Module::Refresh is needed 
+# 
+# Be aware it's unstable and may cause a memory leak.
+# DO NOT EVER USE THIS FEATURE IN PRODUCTION 
+# OR TINY KITTENS SHALL DIE WITH LOTS OF SUFFERING
+auto_reload: 0
+
+user_role_id: 3
+
+solr_url: http://localhost:8883/solr/camp__CAMP_NUMBER__
+
+plugins:
+  DBIC:
+    default:
+      dsn: "dbi:mysql:database=c1wba6;mysql_socket=__CAMP_DB_SOCKET__"
+      schema_class: Interchange6::Schema
+      user: root
+      pass: __CAMP_DB_ROLE_ROOT_PASS__
+      options:
+        RaiseError: 1
+        PrintError: 1
+        mysql_enable_utf8: 1
+  Database:
+    driver: mysql
+    dsn: "dbi:mysql:database=c1wba;mysql_socket=__CAMP_DB_SOCKET__"
+    username: "root"
+    password: "__CAMP_DB_ROLE_ROOT_PASS__"
+    connection_check_threshold: 10
+    dbi_params:
+    RaiseError: 1
+    AutoCommit: 1
+    log_queries: 1
+

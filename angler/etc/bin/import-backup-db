@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Displays a list of files in current directory and prompt for which
+# file to edit
+ 
+# Set the prompt for the select command
+PS3="Type a number of the backup you would like to import or 'q' to quit: "
+ 
+# Create a list of files to display
+fileList=$(find /home/__CAMP_SYSTEM_USER__/backup -maxdepth 1 -type f)
+ 
+# Show a menu and ask for input. If the user entered a valid choice,
+# then invoke the editor on that file
+select fileName in $fileList; do
+    if [ -n "$fileName" ]; then
+        mysql -u root -p__CAMP_DB_ROLE_ROOT_PASS__ \
+           --protocol=socket -S __CAMP_DB_SOCKET__  < ${fileName}
+    fi
+    break
+done

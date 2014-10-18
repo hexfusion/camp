@@ -1,0 +1,37 @@
+#cgidir:__CAMP_PATH__/cgi-bin
+camp_subdirectories:httpd interchange catalogs etc var applications httpd/logs httpd/run var/cache/nginx var/tmp/nginx var/log var/run var/lock solr solr/data solr/conf solr/logs
+#catalog:site
+#catalog_linker_filenames:site
+docroot:__CAMP_PATH__/htdocs
+dns_domain:westbranchangler.com
+hostname:__CAMP_NUMBER__.camp.__CAMP_DNS_DOMAIN__
+repo_path_git:git@github.com:sbatschelet/angler.git
+#git_branch:origin/topic/interchange6-dbic
+
+db_dbnames:c1wba6 c1wba
+#db_mysql_scripts:mysql/tmp/angler_init.sql
+
+# angler6 should be ic6 db.
+db_source_scripts:mysql/tmp/angler6.sql mysql/tmp/angler.sql
+db_default_database:c1wba6
+db_default_user:angler
+db_sleep_time:15
+
+carton_path:/home/camp/angler6/carton
+
+ssl_C:US
+ssl_ST:Arizona
+ssl_L:Scottsdale
+ssl_O:WestBranchAngler
+
+carton:1
+skip_apache:1
+
+httpd_start:__CAMP_PATH__/bin/httpd-ctrl start
+httpd_stop:__CAMP_PATH__/bin/httpd-ctrl stop
+httpd_restart:__CAMP_PATH__/bin/httpd-ctrl restart
+
+app_start:__CAMP_PATH__/bin/plackup-ctrl-angler start && __CAMP_PATH__/bin/plackup-ctrl-table start
+app_stop:__CAMP_PATH__/bin/plackup-ctrl-angler stop && __CAMP_PATH__/bin/plackup-ctrl-table stop
+app_restart:__CAMP_PATH__/bin/plackup-ctrl-angler restart && __CAMP_PATH__/bin/plackup-ctrl-table restart
+

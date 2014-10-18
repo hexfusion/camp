@@ -1,0 +1,22 @@
+#!/bin/bash          
+## This script sets proper env for camp during build.
+
+echo 'Welcome to camp__CAMP_NUMBER__ enjoy your stay!'
+
+cd __CAMP_PATH__
+
+# lets make sure we are using the right perl
+
+## clear
+ unset PERL5LIB;
+
+## set perlbrew env
+# export PERLBREW_ROOT='/home/camp/perl5';
+# export PERLBREW_HOME="$HOME/.perlbrew";
+# source ${PERLBREW_ROOT}/etc/bashrc;
+
+## set camp perl here
+plenv local 5.14.3;
+
+## set local libs
+export PERL5LIB=__CAMP_PATH__/local/lib/perl5"${PERL5LIB:+:$PERL5LIB}";
